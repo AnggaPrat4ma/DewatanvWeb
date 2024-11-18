@@ -1,5 +1,7 @@
 import React from "react";
 import { Typography, Row, Col, Card, Divider, Image } from "antd";
+import { EnvironmentOutlined } from "@ant-design/icons";
+import Location from "../components/Location/Location"; 
 
 const { Title, Paragraph } = Typography;
 
@@ -66,7 +68,7 @@ const About = () => {
         <Row justify="center" align="middle" style={{ marginBottom: "3rem" }}>
           <Col span={8}>
             <Image
-              src="../../../images/A.png"
+              src="./images/A.png"
               alt="Logo"
               style={{
                 borderRadius: "8px",
@@ -74,6 +76,7 @@ const About = () => {
                 height: "auto",
                 marginBottom: "2rem",
               }}
+              preview={false}
             />
           </Col>
           <Col span={16} className="about-section">
@@ -123,7 +126,7 @@ const About = () => {
             <Divider orientation="left" style={{ textTransform: "uppercase" }}>
               <Title
                 level={2}
-                style={{ font: "corbelStyle", color: "#0287a8" }}
+                style={{ font: "corbelStyle", color: "#1e3a8a" }}
               >
                 Visi Kami
               </Title>
@@ -149,7 +152,7 @@ const About = () => {
             >
               <Title
                 level={2}
-                style={{ font: "corbelStyle", color: "#0287a8" }}
+                style={{ font: "corbelStyle", color: "#1e3a8a" }}
               >
                 Misi Kami
               </Title>
@@ -189,9 +192,9 @@ const About = () => {
             <Divider orientation="center">
               <Title
                 level={2}
-                style={{ font: "corbelStyle", color: "#0287a8" }}
+                style={{ font: "corbelStyle", color: "#1e3a8a" }}
               >
-                Tim Kami
+                TIM KAMI
               </Title>
             </Divider>
           </Col>
@@ -214,6 +217,13 @@ const About = () => {
               </Card>
             </Col>
           ))}
+        </Row>
+
+        {/* Location Section */}
+        <Row justify="center" className="py-10">
+          <Col span={20}>
+            <Location />
+          </Col>
         </Row>
       </div>
     </>

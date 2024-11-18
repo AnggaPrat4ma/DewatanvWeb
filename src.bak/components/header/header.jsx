@@ -6,7 +6,7 @@ const Header = () => {
     <header className="bg-white shadow-lg flex items-center justify-between p-4">
       <div className="flex items-center space-x-2">
         <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-        <h1 className="text-lg font-semibold text-indigo-600">Dashboard</h1>
+        <h1 className="text-lg font-semibold text-indigo-600">Dashboards</h1>
       </div>
       <div className="flex items-center space-x-4">
         <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-200">
