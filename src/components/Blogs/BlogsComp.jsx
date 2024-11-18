@@ -7,11 +7,13 @@ import {
   Drawer,
   Form,
   Input,
+  Space,
+  Tooltip,
   FloatButton,
   Typography,
   Skeleton,
 } from "antd";
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, InfoCircleOutlined, LinkOutlined, PictureOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
 const { Paragraph, Title } = Typography;
 
@@ -26,7 +28,17 @@ const BlogCard = ({
   return (
     <Card
       hoverable
-      cover={<img alt={play_name} src={play_thumbnail} />}
+      cover={
+        <img
+          alt={play_name}
+          src={play_thumbnail}
+          style={{
+            width: "100%", // Sesuaikan agar gambar mengikuti lebar card
+            height: "200px", // Tentukan tinggi gambar
+            objectFit: "cover", // Agar gambar tidak terdistorsi
+          }}
+        />
+      }
       onClick={onClick}
     >
       <div
@@ -81,6 +93,7 @@ const BlogCard = ({
   );
 };
 
+
 const BlogsComp = () => {
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
@@ -118,6 +131,16 @@ const BlogsComp = () => {
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/i);
     return match ? match[1] : null;
   };
+
+  const handleUrlChange = (e) => {
+    const url = e.target.value;
+    const idVideo = extractYouTubeID(url);
+    if (idVideo) {
+      const thumbnailUrl = `https://img.youtube.com/vi/${idVideo}/hqdefault.jpg`;
+      form.setFieldsValue({ play_thumbnail: thumbnailUrl });
+    }
+  };
+
 
   const handleDelete = async (id) => {
     try {
@@ -190,7 +213,7 @@ const BlogsComp = () => {
   return (
     <div className="dark:bg-gray-900 dark:text-white py-10">
       <section data-aos="fade-up" className="container">
-        <h1 className="my-8 text-3xl font-bold">Our Latest Destination</h1>
+        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">Our Latest Destination</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {blogs.map((blog) => (
             <BlogCard
@@ -208,11 +231,15 @@ const BlogsComp = () => {
         type="primary"
         icon={<PlusCircleOutlined />}
         tooltip="Add Blog"
-        onClick={() => handleDrawerOpen()} 
+        onClick={() => handleDrawerOpen()}
       />
 
       <Drawer
-        title={editingBlog ? "Edit Blog" : "Add New Blog"}
+        title={
+          <Title level={4} style={{ color: "#1890ff", margin: 0 }}>
+            {editingBlog ? "Edit Blog" : "Add New Blog"}
+          </Title>
+        }
         placement="right"
         onClose={handleDrawerClose}
         open={isDrawerVisible}
@@ -226,23 +253,89 @@ const BlogsComp = () => {
             </Button>
           </div>
         }
+        bodyStyle={{ padding: 24, background: "#f5f5f5" }}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item label="Name" name="play_name" rules={[{ required: true, message: "Please enter a name" }]}>
-            <Input placeholder="Enter the blog name" />
-          </Form.Item>
-          <Form.Item label="Description" name="play_description" rules={[{ required: true, message: "Please enter a description" }]}>
-            <Input.TextArea rows={3} placeholder="Enter the blog description" />
-          </Form.Item>
-          <Form.Item label="Genre" name="play_genre" rules={[{ required: true, message: "Please enter a genre" }]}>
-            <Input placeholder="Enter the genre" />
-          </Form.Item>
-          <Form.Item label="URL" name="play_url" rules={[{ required: true, message: "Please enter a URL" }]}>
-            <Input placeholder="Enter the blog URL" />
-          </Form.Item>
-          <Form.Item label="Thumbnail" name="play_thumbnail" rules={[{ required: true, message: "Please enter a thumbnail URL" }]}>
-            <Input placeholder="Enter the thumbnail URL" />
-          </Form.Item>
+          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+            <Form.Item
+              label={
+                <span>
+                  Blog Name&nbsp;
+                  <Tooltip title="Enter the name of the blog">
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
+              name="play_name"
+              rules={[{ required: true, message: "Please enter a name" }]}
+            >
+              <Input placeholder="Enter the blog name" prefix={<EditOutlined />} />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <span>
+                  Description&nbsp;
+                  <Tooltip title="Provide a short description of the blog">
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
+              name="play_description"
+              rules={[{ required: true, message: "Please enter a description" }]}
+            >
+              <Input.TextArea rows={3} placeholder="Describe your blog in a few sentences" />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <span>
+                  Genre&nbsp;
+                  <Tooltip title="What genre does this blog belong to?">
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
+              name="play_genre"
+              rules={[{ required: true, message: "Please enter a genre" }]}
+            >
+              <Input placeholder="e.g., Education, Entertainment" />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <span>
+                  URL&nbsp;
+                  <Tooltip title="Provide a valid YouTube URL">
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
+              name="play_url"
+              rules={[{ required: true, message: "Please enter a URL" }]}
+            >
+              <Input
+                placeholder="e.g., https://youtu.be/example"
+                prefix={<LinkOutlined />}
+                onChange={handleUrlChange}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <span>
+                  Thumbnail URL&nbsp;
+                  <Tooltip title="This field will be auto-filled based on the YouTube URL">
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </span>
+              }
+              name="play_thumbnail"
+              rules={[{ required: true, message: "Please enter a thumbnail URL" }]}
+            >
+              <Input disabled prefix={<PictureOutlined />} />
+            </Form.Item>
+          </Space>
         </Form>
       </Drawer>
 
@@ -271,22 +364,14 @@ const BlogsComp = () => {
                 allowFullScreen
               ></iframe>
             </div>
-            <Title level={4}>Description:</Title>
-            <Paragraph>{selectedBlog.play_description}</Paragraph>
             <Title level={4}>Genre:</Title>
             <Paragraph>{selectedBlog.play_genre}</Paragraph>
-            <Title level={4}>Created At:</Title>
-            <Paragraph>
-              {new Date(selectedBlog.created_at).toLocaleString()}
-            </Paragraph>
-            <Title level={4}>Updated At:</Title>
-            <Paragraph>
-              {new Date(selectedBlog.updated_at).toLocaleString()}
-            </Paragraph>
             <Title level={4}>YouTube URL:</Title>
             <a href={selectedBlog.play_url} target="_blank" rel="noopener noreferrer">
-              {selectedBlog.play_url}
+              Watch on Youtube
             </a>
+            <Title level={4}>Description:</Title>
+            <Paragraph>{selectedBlog.play_description}</Paragraph>
           </>
         ) : (
           <Skeleton active />
