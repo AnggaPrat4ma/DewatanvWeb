@@ -1,19 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Card } from "antd";
-
+import React, { useState } from "react";
+import { Card, Modal } from "antd";
 
 const { Meta } = Card;
 
 const CulinaryCard = ({ image, date, title, description, author }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
-    <Link
-      to={`/blogs/${title}`}
-      onClick={() => {
-        window.scrollTo(0, 0);
-      }}
-      state={{ image, date, title, description, author }}
-    >
+    <>
       <Card
         hoverable
         cover={
@@ -26,18 +32,47 @@ const CulinaryCard = ({ image, date, title, description, author }) => {
           </div>
         }
         className="dark:bg-gray-800 dark:text-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-105"
+        onClick={showModal}
       >
         <div className="flex justify-between text-sm text-slate-600 dark:text-gray-300 pb-2">
           <p>{date}</p>
           <p className="line-clamp-1">By {author}</p>
         </div>
-        
+
         <Meta
-          title={<h3 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h3>}
-          description={<p className="line-clamp-3 text-gray-700 dark:text-gray-300">{description}</p>}
+          title={
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {title}
+            </h3>
+          }
+          description={
+            <p className="line-clamp-3 text-gray-700 dark:text-gray-300">
+              {description}
+            </p>
+          }
         />
       </Card>
-    </Link>
+
+      <Modal
+        title={title}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div>
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-60 object-cover mb-4"
+          />
+          <p>{description}</p>
+          <p className="text-sm text-gray-500 mt-4">
+            By {author} - {date}
+          </p>
+        </div>
+      </Modal>
+    </>
   );
 };
 
