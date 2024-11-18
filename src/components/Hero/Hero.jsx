@@ -11,7 +11,7 @@ const Hero = () => {
               data-aos="fade-up"
               className="text-4xl font-bold uppercase tracking-wide"
             >
-              Welcome to Dewata Trails
+              Dewata Trails
             </p>
             <p
               data-aos="fade-up"
