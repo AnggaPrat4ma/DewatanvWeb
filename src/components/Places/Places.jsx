@@ -86,7 +86,7 @@ const Places = () => {
     <div className="dark:bg-gray-900 dark:text-white bg-gray-50 py-10">
       <section data-aos="fade-up" className="container">
         <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
-          Hot News
+          Berita Terkini
         </h1>
         <Row gutter={[16, 16]}>
           {PlacesData.map((item, index) => (

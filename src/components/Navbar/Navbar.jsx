@@ -6,23 +6,23 @@ import ResponsiveMenu from "./ResponsiveMenu";
 
 export const NavbarLinks = [
   {
-    name: "Home",
+    name: "Beranda",
     link: "/",
   },
   {
-    name: "About",
+    name: "Tentang",
     link: "/about",
   },
   {
-    name: "Blogs",
+    name: "Destinasi",
     link: "/blogs",
   },
   {
-    name: "News",
+    name: "Berita",
     link: "/best-places",
   },
   {
-    name: "Culinary",
+    name: "Kuliner",
     link: "/culinary",
   },
 ];
@@ -65,7 +65,7 @@ const Navbar = ({ handleOrderPopup }) => {
                   handleOrderPopup();
                 }}
               >
-                Log In
+                Masuk
               </button>
               {/* Mobile Hamburger Icon */}
               <div className="md:hidden block">
