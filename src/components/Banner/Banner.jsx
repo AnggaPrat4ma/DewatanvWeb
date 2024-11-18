@@ -48,7 +48,7 @@ const Banner = () => {
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <ShopOutlined className="text-4xl h-12 w-12 shadow-sm p-4 rounded-full bg-yellow-100 dark:bg-yellow-400" />
-                    <p>Shopping</p>
+                    <p>Pusat Belanja</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <GlobalOutlined className="text-4xl h-12 w-12 shadow-sm p-4 rounded-full bg-red-100 dark:bg-red-400" />

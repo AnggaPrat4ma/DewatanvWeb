@@ -12,7 +12,7 @@ const OrderPopup = ({ orderPopup, setOrderPopup }) => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-xl font-semibold text-black/70">
-                  Book Your Trip
+                  Book Your
                 </h1>
               </div>
               <div>

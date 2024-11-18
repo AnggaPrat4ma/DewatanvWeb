@@ -10,19 +10,19 @@ import Img4 from "../../assets/team/batok.jpg";
 // Data footer links
 const FooterLinks = [
   {
-    title: "Home",
+    title: "Beranda",
     link: "/",
   },
   {
-    title: "About",
+    title: "Tentang",
     link: "/about",
   },
   {
-    title: "News",
+    title: "Berita",
     link: "/news",
   },
   {
-    title: "Blogs",
+    title: "Destinasi",
     link: "/blogs",
   },
 ];
@@ -79,7 +79,7 @@ const Footer = () => {
         {/* Kolom 2: Explore Links */}
         <div className="flex flex-col items-center md:items-start md:px-5 md:ml-10">
           <div className="text-white mb-4">
-            <h2 className="font-bold text-lg">Explore Links</h2>
+            <h2 className="font-bold text-lg">Jelajahi Tautan</h2>
           </div>
           <div className="text-sm text-center md:text-left">
             {FooterLinks.map((link, index) => (

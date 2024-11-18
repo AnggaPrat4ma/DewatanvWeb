@@ -111,10 +111,10 @@ const BlogsComp = () => {
       if (data.message === "OK") {
         setBlogs(data.datas);
       } else {
-        notification.error({ message: "Failed to load data" });
+        notification.error({ message: "Gagal memuat data" });
       }
     } catch (error) {
-      notification.error({ message: "Error fetching data" });
+      notification.error({ message: "Terjadi kesalahan saat mengambil data" });
     }
   };
 
@@ -149,13 +149,13 @@ const BlogsComp = () => {
       });
 
       if (response.ok) {
-        notification.success({ message: "Blog deleted successfully" });
+        notification.success({ message: "Destinasi berhasil dihapus" });
         setBlogs(blogs.filter((blog) => blog.id_play !== id));
       } else {
-        notification.error({ message: "Failed to delete the blog" });
+        notification.error({ message: "Gagal menghapus destinasi" });
       }
     } catch (error) {
-      notification.error({ message: "Error deleting blog" });
+      notification.error({ message: "Terjadi kesalahan saat menghapus blog" });
     }
   };
 
@@ -196,24 +196,24 @@ const BlogsComp = () => {
 
       if (responseData.message === "OK") {
         notification.success({
-          message: `Blog ${editingBlog ? "updated" : "added"} successfully`,
+          message: `Destinasi ${editingBlog ? "diperbarui" : "ditambahkan"} berhasil`,
         });
         handleDrawerClose();
         fetchData(); // Refresh data
       } else {
         notification.error({
-          message: `Failed to ${editingBlog ? "update" : "add"} the blog`,
+          message: `Gagal untuk ${editingBlog ? "memperbarui" : "menambahkan"} destinasi`,
         });
       }
     } catch (error) {
-      notification.error({ message: "Error submitting data" });
+      notification.error({ message: "Kesalahan saat mengirimkan data" });
     }
   };
 
   return (
     <div className="dark:bg-gray-900 dark:text-white py-10">
       <section data-aos="fade-up" className="container">
-        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">Our Latest Destination</h1>
+        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">Destinasi Terbaru Kami</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {blogs.map((blog) => (
             <BlogCard
@@ -230,14 +230,14 @@ const BlogsComp = () => {
       <FloatButton
         type="primary"
         icon={<PlusCircleOutlined />}
-        tooltip="Add Blog"
+        tooltip="Tambahkan Destinasi"
         onClick={() => handleDrawerOpen()}
       />
 
       <Drawer
         title={
           <Title level={4} style={{ color: "#1890ff", margin: 0 }}>
-            {editingBlog ? "Edit Blog" : "Add New Blog"}
+            {editingBlog ? "Sunting Destinasi" : "Tambahkan Destinasi"}
           </Title>
         }
         placement="right"
@@ -246,10 +246,10 @@ const BlogsComp = () => {
         footer={
           <div style={{ textAlign: "right" }}>
             <Button onClick={handleDrawerClose} style={{ marginRight: 8 }}>
-              Cancel
+              Batal
             </Button>
             <Button type="primary" onClick={handleSubmit}>
-              Submit
+              Kirim
             </Button>
           </div>
         }
@@ -260,59 +260,59 @@ const BlogsComp = () => {
             <Form.Item
               label={
                 <span>
-                  Blog Name&nbsp;
-                  <Tooltip title="Enter the name of the blog">
+                  Nama Destinasi&nbsp;
+                  <Tooltip title="Masukkan nama destinasi">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_name"
-              rules={[{ required: true, message: "Please enter a name" }]}
+              rules={[{ required: true, message: "Silahkan masukkan nama" }]}
             >
-              <Input placeholder="Enter the blog name" prefix={<EditOutlined />} />
+              <Input placeholder="Masukkan nama destinasi" prefix={<EditOutlined />} />
             </Form.Item>
 
             <Form.Item
               label={
                 <span>
-                  Description&nbsp;
-                  <Tooltip title="Provide a short description of the blog">
+                  Deskripsi&nbsp;
+                  <Tooltip title="Berikan deskripsi singkat tentang destinasi">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_description"
-              rules={[{ required: true, message: "Please enter a description" }]}
+              rules={[{ required: true, message: "Silahkan masukkan deskripsi" }]}
             >
-              <Input.TextArea rows={3} placeholder="Describe your blog in a few sentences" />
+              <Input.TextArea rows={3} placeholder="Jelaskan destinasi dalam beberapa kalimat" />
             </Form.Item>
 
             <Form.Item
               label={
                 <span>
-                  Genre&nbsp;
-                  <Tooltip title="What genre does this blog belong to?">
+                  Tipe Destinasi&nbsp;
+                  <Tooltip title="destinasi ini termasuk tipe apa?">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_genre"
-              rules={[{ required: true, message: "Please enter a genre" }]}
+              rules={[{ required: true, message: "Silahkan masukkan tipe" }]}
             >
-              <Input placeholder="e.g., Education, Entertainment" />
+              <Input placeholder="misalnya, Pendidikan, Hiburan" />
             </Form.Item>
 
             <Form.Item
               label={
                 <span>
                   URL&nbsp;
-                  <Tooltip title="Provide a valid YouTube URL">
+                  <Tooltip title="Berikan URL YouTube yang valid">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_url"
-              rules={[{ required: true, message: "Please enter a URL" }]}
+              rules={[{ required: true, message: "Silahkan masukkan URL" }]}
             >
               <Input
                 placeholder="e.g., https://youtu.be/example"
@@ -325,13 +325,13 @@ const BlogsComp = () => {
               label={
                 <span>
                   Thumbnail URL&nbsp;
-                  <Tooltip title="This field will be auto-filled based on the YouTube URL">
+                  <Tooltip title="Bidang ini akan terisi secara otomatis berdasarkan URL YouTube">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_thumbnail"
-              rules={[{ required: true, message: "Please enter a thumbnail URL" }]}
+              rules={[{ required: true, message: "Silakan masukkan URL thumbnail" }]}
             >
               <Input disabled prefix={<PictureOutlined />} />
             </Form.Item>
@@ -364,13 +364,13 @@ const BlogsComp = () => {
                 allowFullScreen
               ></iframe>
             </div>
-            <Title level={4}>Genre:</Title>
+            <Title level={4}>Tipe Destinasi:</Title>
             <Paragraph>{selectedBlog.play_genre}</Paragraph>
             <Title level={4}>YouTube URL:</Title>
             <a href={selectedBlog.play_url} target="_blank" rel="noopener noreferrer">
-              Watch on Youtube
+              Tonton di Youtube
             </a>
-            <Title level={4}>Description:</Title>
+            <Title level={4}>Deskripsi:</Title>
             <Paragraph>{selectedBlog.play_description}</Paragraph>
           </>
         ) : (
