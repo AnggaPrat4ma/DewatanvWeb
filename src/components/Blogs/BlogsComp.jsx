@@ -4,31 +4,44 @@ import {
   Button,
   Modal,
   notification,
-  FloatButton,
   Drawer,
   Form,
   Input,
-  Typography
+  FloatButton,
+  Typography,
+  Skeleton,
 } from "antd";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
-const { Meta } = Card;
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
-const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDelete, onEdit }) => {
+const BlogCard = ({
+  play_name,
+  play_description,
+  play_thumbnail,
+  onClick,
+  onDelete,
+  onEdit,
+}) => {
   return (
     <Card
       hoverable
       cover={<img alt={play_name} src={play_thumbnail} />}
-      onClick={onClick} // Show details on click
+      onClick={onClick}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div style={{ flex: 1, overflow: "hidden" }}>
           <Paragraph
             strong
             ellipsis={{
-              rows: 1, // Truncate to 1 line
-              tooltip: play_name, // Show full text on hover
+              rows: 1,
+              tooltip: play_name,
             }}
             style={{ marginBottom: "4px" }}
           >
@@ -36,10 +49,10 @@ const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDele
           </Paragraph>
           <Paragraph
             ellipsis={{
-              rows: 2, // Truncate to 2 lines
-              tooltip: play_description, // Show full description on hover
+              rows: 2,
+              tooltip: play_description,
             }}
-            style={{ color: "rgba(0, 0, 0, 0.45)" }} // Default Ant Design color for description
+            style={{ color: "rgba(0, 0, 0, 0.45)" }}
           >
             {play_description}
           </Paragraph>
@@ -49,7 +62,7 @@ const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDele
             type="text"
             icon={<EditOutlined />}
             onClick={(e) => {
-              e.stopPropagation(); // Prevent parent onClick
+              e.stopPropagation();
               onEdit();
             }}
           />
@@ -58,7 +71,7 @@ const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDele
             danger
             icon={<DeleteOutlined />}
             onClick={(e) => {
-              e.stopPropagation(); // Prevent parent onClick
+              e.stopPropagation();
               onDelete();
             }}
           />
@@ -78,7 +91,9 @@ const BlogsComp = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://webfmsi.singapoly.com/api/playlist/8");
+      const response = await fetch(
+        "https://webfmsi.singapoly.com/api/playlist/8"
+      );
       const data = await response.json();
       if (data.message === "OK") {
         setBlogs(data.datas);
@@ -97,6 +112,11 @@ const BlogsComp = () => {
   const handleShowDetails = (blog) => {
     setSelectedBlog(blog);
     setIsModalVisible(true);
+  };
+
+  const extractYouTubeID = (url) => {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/i);
+    return match ? match[1] : null;
   };
 
   const handleDelete = async (id) => {
@@ -136,21 +156,21 @@ const BlogsComp = () => {
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
-  
+
       // Determine whether to create or update
       const method = editingBlog ? "POST" : "POST";
       const url = editingBlog
         ? `https://webfmsi.singapoly.com/api/playlist/update/${editingBlog.id_play}` // Update by ID
         : "https://webfmsi.singapoly.com/api/playlist/8"; // Create new
-  
+
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-  
+
       const responseData = await response.json();
-  
+
       if (responseData.message === "OK") {
         notification.success({
           message: `Blog ${editingBlog ? "updated" : "added"} successfully`,
@@ -166,7 +186,6 @@ const BlogsComp = () => {
       notification.error({ message: "Error submitting data" });
     }
   };
-  
 
   return (
     <div className="dark:bg-gray-900 dark:text-white py-10">
@@ -179,7 +198,7 @@ const BlogsComp = () => {
               {...blog}
               onClick={() => handleShowDetails(blog)}
               onDelete={() => handleDelete(blog.id_play)}
-              onEdit={() => handleDrawerOpen(blog)} // Buka drawer dengan data blog untuk edit
+              onEdit={() => handleDrawerOpen(blog)}
             />
           ))}
         </div>
@@ -189,7 +208,7 @@ const BlogsComp = () => {
         type="primary"
         icon={<PlusCircleOutlined />}
         tooltip="Add Blog"
-        onClick={() => handleDrawerOpen()} // Buka drawer untuk penambahan data baru
+        onClick={() => handleDrawerOpen()} 
       />
 
       <Drawer
@@ -229,16 +248,49 @@ const BlogsComp = () => {
 
       <Modal
         title={selectedBlog?.play_name}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[
-          <button key="back" onClick={() => setIsModalVisible(false)}>
+          <Button key="close" onClick={() => setIsModalVisible(false)}>
             Close
-          </button>,
+          </Button>,
         ]}
         width={800}
       >
-        <p>{selectedBlog?.play_description}</p>
+        {selectedBlog ? (
+          <>
+            <div style={{ marginBottom: "16px", textAlign: "center" }}>
+              <iframe
+                width="100%"
+                height="400px"
+                src={`https://www.youtube.com/embed/${extractYouTubeID(
+                  selectedBlog.play_url
+                )}`}
+                title={selectedBlog.play_name}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <Title level={4}>Description:</Title>
+            <Paragraph>{selectedBlog.play_description}</Paragraph>
+            <Title level={4}>Genre:</Title>
+            <Paragraph>{selectedBlog.play_genre}</Paragraph>
+            <Title level={4}>Created At:</Title>
+            <Paragraph>
+              {new Date(selectedBlog.created_at).toLocaleString()}
+            </Paragraph>
+            <Title level={4}>Updated At:</Title>
+            <Paragraph>
+              {new Date(selectedBlog.updated_at).toLocaleString()}
+            </Paragraph>
+            <Title level={4}>YouTube URL:</Title>
+            <a href={selectedBlog.play_url} target="_blank" rel="noopener noreferrer">
+              {selectedBlog.play_url}
+            </a>
+          </>
+        ) : (
+          <Skeleton active />
+        )}
       </Modal>
     </div>
   );
