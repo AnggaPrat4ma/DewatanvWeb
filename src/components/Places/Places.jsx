@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { Card, Row, Col, Modal, Button } from "antd";
 import Img1 from "../../assets/places/mangrove.jpg";
 import Img2 from "../../assets/places/turis.jpeg";
-import Img3 from "../../assets/places/jatiluwih.jpeg";
+import Img3 from "../../assets/places/jatiluwih.jpg";
 import Img4 from "../../assets/places/bandara.jpeg";
 import Img5 from "../../assets/places/ombak.jpeg";
 import Img6 from "../../assets/places/kebakaran.jpeg";
-
 
 // Data tempat wisata
 const PlacesData = [
@@ -70,22 +69,18 @@ const PlacesData = [
   },
 ];
 
-
 const Places = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({});
-
 
   const showModal = (item) => {
     setModalContent(item);
     setIsModalVisible(true);
   };
 
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
 
   return (
     <div className="dark:bg-gray-900 dark:text-white bg-gray-50 py-10">
@@ -131,7 +126,6 @@ const Places = () => {
                   />
                 </div>
 
-
                 <Card.Meta
                   title={item.title}
                   description={item.location}
@@ -143,7 +137,6 @@ const Places = () => {
             </Col>
           ))}
         </Row>
-
 
         <Modal
           title={modalContent.title}
@@ -177,7 +170,6 @@ const Places = () => {
             visibility: visible; /* Menampilkan overlay saat hover */
           }
 
-
           .ant-card:hover {
             transform: scale(1.05); /* Membesarkan card sedikit saat hover */
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
@@ -187,6 +179,5 @@ const Places = () => {
     </div>
   );
 };
-
 
 export default Places;

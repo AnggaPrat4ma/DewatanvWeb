@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { UpOutlined } from "@ant-design/icons";
 import Img1 from "../../assets/team/lia.jpg";
 import Img2 from "../../assets/team/prayoga.png";
-import Img3 from "../../assets/team/batok.jpg";
+import Img3 from "../../assets/team/batoknobg.png";
 import Img4 from "../../assets/team/batok.jpg";
 
 // Data footer links
