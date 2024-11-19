@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Card, Row, Col, Modal, Button } from "antd";
+import { Card, Row, Col, Modal, Button, Input, Rate } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
+
 import Img1 from "../../assets/places/mangrove.jpg";
 import Img2 from "../../assets/places/turis.jpeg";
 import Img3 from "../../assets/places/jatiluwih.jpg";
@@ -7,7 +9,6 @@ import Img4 from "../../assets/places/bandara.jpeg";
 import Img5 from "../../assets/places/ombak.jpeg";
 import Img6 from "../../assets/places/kebakaran.jpeg";
 
-// Data tempat wisata
 const PlacesData = [
   {
     img: Img1,
@@ -72,6 +73,10 @@ const PlacesData = [
 const Places = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [ratings, setRatings] = useState({}); // Menyimpan rating setiap tempat
+  const [comments, setComments] = useState({}); // Menyimpan komentar setiap tempat
+  const [comment, setComment] = useState(""); // Komentar baru yang dimasukkan
 
   const showModal = (item) => {
     setModalContent(item);
@@ -82,21 +87,59 @@ const Places = () => {
     setIsModalVisible(false);
   };
 
+  const handleRatingChange = (value, title) => {
+    setRatings({
+      ...ratings,
+      [title]: value,
+    });
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleAddComment = (title) => {
+    setComments({
+      ...comments,
+      [title]: [...(comments[title] || []), comment],
+    });
+    setComment(""); // Reset field setelah komentar ditambahkan
+  };
+
+  const filteredPlaces = PlacesData.filter(
+    (place) =>
+      place.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place.location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dark:bg-gray-900 dark:text-white bg-gray-50 py-10">
       <section data-aos="fade-up" className="container">
         <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
           Berita Terkini
         </h1>
+
+        {/* Input Search */}
+        <Input
+          placeholder="Cari berita..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-6"
+          style={{ width: "40vw", padding: "10px" }}
+          suffix={<SearchOutlined />}
+        />
+
+        {/* Grid Cards */}
         <Row gutter={[16, 16]}>
-          {PlacesData.map((item, index) => (
+          {filteredPlaces.map((item, index) => (
             <Col
               key={index}
-              xs={24} // Pada ukuran layar kecil, card akan penuh (24 kolom)
-              sm={12} // Pada layar kecil menengah, card akan terbagi 2 kolom
-              md={12} // Pada ukuran menengah, card akan terbagi 3 kolom
-              lg={8} // Pada layar besar, card akan terbagi 3 kolom
-              xl={8} // Pada layar extra large, card akan terbagi 4 kolom
+              xs={24}
+              sm={12}
+              md={12}
+              lg={8}
+              xl={8}
             >
               <Card
                 hoverable
@@ -133,11 +176,19 @@ const Places = () => {
                     marginTop: "10px",
                   }}
                 />
+                {/* Menambahkan rating */}
+                <div className="my-2">
+                  <Rate
+                    value={ratings[item.title] || 0}
+                    onChange={(value) => handleRatingChange(value, item.title)}
+                  />
+                </div>
               </Card>
             </Col>
           ))}
         </Row>
 
+        {/* Modal for Details */}
         <Modal
           title={modalContent.title}
           visible={isModalVisible}
@@ -162,19 +213,31 @@ const Places = () => {
             style={{ width: "100%", height: "300px", objectFit: "cover" }}
           />
           <p className="mt-4">{modalContent.description}</p>
-        </Modal>
-        {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
-        <style jsx>{`
-          .ant-card:hover .overlay {
-            opacity: 1; /* Menampilkan overlay saat hover */
-            visibility: visible; /* Menampilkan overlay saat hover */
-          }
 
-          .ant-card:hover {
-            transform: scale(1.05); /* Membesarkan card sedikit saat hover */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
-          }
-        `}</style>
+          {/* Komentar */}
+          <div className="mt-4">
+            <Input.TextArea
+              rows={4}
+              value={comment}
+              onChange={handleCommentChange}
+              placeholder="Tambahkan komentar..."
+            />
+            <Button
+              type="primary"
+              onClick={() => handleAddComment(modalContent.title)}
+              style={{ marginTop: "10px" }}
+            >
+              Tambah Komentar
+            </Button>
+            <div className="mt-4">
+              {comments[modalContent.title]?.map((comment, index) => (
+                <div key={index} className="p-2 mb-2 border-b">
+                  {comment}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Modal>
       </section>
     </div>
   );
