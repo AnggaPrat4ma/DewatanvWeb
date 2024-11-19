@@ -12,7 +12,9 @@ import {
   FloatButton,
   Typography,
   Skeleton,
+  Popconfirm
 } from "antd";
+import { useLocation } from "react-router-dom";
 import { DeleteOutlined, InfoCircleOutlined, LinkOutlined, PictureOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
 const { Paragraph, Title } = Typography;
@@ -78,15 +80,24 @@ const BlogCard = ({
               onEdit();
             }}
           />
-          <Button
-            type="text"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={(e) => {
+          <Popconfirm
+            title="Apakah Anda yakin ingin menghapus destinasi ini?"
+            description="Tindakan ini tidak dapat dibatalkan."
+            okText="Ya"
+            cancelText="Tidak"
+            onConfirm={(e) => {
               e.stopPropagation();
               onDelete();
             }}
-          />
+            onCancel={(e) => e.stopPropagation()}
+          >
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={(e) => e.stopPropagation()} // Supaya tidak trigger `onClick` Card
+            />
+          </Popconfirm>
         </div>
       </div>
     </Card>
@@ -95,6 +106,7 @@ const BlogCard = ({
 
 
 const BlogsComp = () => {
+  const location = useLocation();
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -227,12 +239,14 @@ const BlogsComp = () => {
         </div>
       </section>
 
-      <FloatButton
-        type="primary"
-        icon={<PlusCircleOutlined />}
-        tooltip="Tambahkan Destinasi"
-        onClick={() => handleDrawerOpen()}
-      />
+      {location.pathname === "/blogs" && (
+        <FloatButton
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          tooltip="Tambahkan Destinasi"
+          onClick={() => handleDrawerOpen()}
+        />
+      )}
 
       <Drawer
         title={
