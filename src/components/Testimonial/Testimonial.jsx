@@ -17,7 +17,7 @@ const testimonialData = [
   },
   {
     id: 3,
-    name: "Lia",
+    name: "Enilia",
     text: "Panduan wisata yang diberikan benar-benar membantu. Saya bisa menjelajahi Bali dengan lebih mudah dan mendapatkan pengalaman yang tak terlupakan. Terima kasih banyak!",
     img: Img1,
   },

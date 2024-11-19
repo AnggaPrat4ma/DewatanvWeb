@@ -124,17 +124,16 @@ const Places = () => {
 
         {location.pathname === "/best-places" && (
           <Input
-          placeholder="Cari berita..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-6"
-          style={{ width: "100%", padding: "10px" }}
-          suffix={<SearchOutlined />}
-        />
+            placeholder="Cari berita..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="mb-6"
+            style={{ width: "100%", padding: "10px" }}
+            suffix={<SearchOutlined />}
+          />
         )}
 
         {/* Input Search */}
-        
 
         {/* Grid Cards */}
         <Row gutter={[16, 16]}>
@@ -237,6 +236,18 @@ const Places = () => {
             </div>
           </div>
         </Modal>
+        {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
+        <style jsx>{`
+          .ant-card:hover .overlay {
+            opacity: 1; /* Menampilkan overlay saat hover */
+            visibility: visible; /* Menampilkan overlay saat hover */
+          }
+
+          .ant-card:hover {
+            transform: scale(1.05); /* Membesarkan card sedikit saat hover */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
+          }
+        `}</style>
       </section>
     </div>
   );

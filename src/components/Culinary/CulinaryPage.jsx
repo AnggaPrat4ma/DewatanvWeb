@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Img1 from "../../assets/places/rujak.jpeg";
 import Img2 from "../../assets/places/nasijinggo.jpeg";
 import Img3 from "../../assets/places/satekakul.jpg";
@@ -6,6 +6,7 @@ import Img4 from "../../assets/places/sambalmatah.jpeg";
 import Img5 from "../../assets/places/betutu.jpg";
 import Img6 from "../../assets/places/jukuturap.jpeg";
 import CulinaryCard from "./CulinaryCard";
+import { useLocation } from "react-router-dom";
 
 const BlogsData = [
   {
@@ -18,7 +19,7 @@ const BlogsData = [
     date: "April 22, 2022",
   },
   {
-    id: 1,
+    id: 2,
     image: Img2,
     title: "Nasi Jinggo",
     description:
@@ -27,7 +28,7 @@ const BlogsData = [
     date: "April 22, 2022",
   },
   {
-    id: 1,
+    id: 3,
     image: Img3,
     title: "Sate Kakul",
     description:
@@ -35,9 +36,8 @@ const BlogsData = [
     author: "Gogo",
     date: "April 22, 2022",
   },
-
   {
-    id: 1,
+    id: 4,
     image: Img4,
     title: "Sambal Matah",
     description:
@@ -46,7 +46,7 @@ const BlogsData = [
     date: "April 22, 2022",
   },
   {
-    id: 1,
+    id: 5,
     image: Img5,
     title: "Betutu",
     description:
@@ -55,7 +55,7 @@ const BlogsData = [
     date: "April 22, 2022",
   },
   {
-    id: 1,
+    id: 6,
     image: Img6,
     title: "Jukut Urap",
     description:
@@ -66,33 +66,53 @@ const BlogsData = [
 ];
 
 const CulinaryPage = () => {
-  return (
-    <>
-      <div className="dark:bg-gray-900 dark:text-white py-10">
-        <section data-aos="fade-up" className="container ">
-          <h1 className=" my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
-            Kuliner Khas Bali
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {BlogsData.map((item) => (
-              <CulinaryCard key={item.id} {...item} />
-            ))}
-          </div>
-          {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
-          <style jsx>{`
-            .ant-card:hover .overlay {
-              opacity: 1; /* Menampilkan overlay saat hover */
-              visibility: visible; /* Menampilkan overlay saat hover */
-            }
+  const [searchTerm, setSearchTerm] = useState("");
 
-            .ant-card:hover {
-              transform: scale(1.05); /* Membesarkan card sedikit saat hover */
-              box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
-            }
-          `}</style>
-        </section>
-      </div>
-    </>
+  const location = useLocation();
+
+  const filteredBlogs = BlogsData.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="dark:bg-gray-900 dark:text-white py-10">
+      <section data-aos="fade-up" className="container">
+        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
+          Kuliner Khas Bali
+        </h1>
+
+        {location.pathname === "/culinary" && (
+          <input
+          type="text"
+          className="p-3 w-full max-w-[600px] rounded-lg border-2 border-primary focus:outline-none"
+          placeholder="Cari kuliner..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        )}
+
+
+        {/* Menampilkan hasil filter */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {filteredBlogs.map((item) => (
+            <CulinaryCard key={item.id} {...item} />
+          ))}
+        </div>
+
+        {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
+        <style jsx>{`
+          .ant-card:hover .overlay {
+            opacity: 1; /* Menampilkan overlay saat hover */
+            visibility: visible; /* Menampilkan overlay saat hover */
+          }
+
+          .ant-card:hover {
+            transform: scale(1.05); /* Membesarkan card sedikit saat hover */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
+          }
+        `}</style>
+      </section>
+    </div>
   );
 };
 
