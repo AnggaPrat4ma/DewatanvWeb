@@ -12,7 +12,7 @@ const testimonialData = [
   {
     id: 2,
     name: "Angga",
-    text: "Website ini sangat informatif dan mudah digunakan. Saya menemukan banyak tempat wisata baru yang belum pernah saya kunjungi sebelumnya. Pelayanannya luar biasa!",
+    text: "Website ini sangat informatif dan mudah digunakan. Saya menemukan banyak tempat wisata baru yang belum pernah saya kunjungi sebelumnya. Pelayanannya luar biasa! Keren banget!!!",
     img: Img1,
   },
   {

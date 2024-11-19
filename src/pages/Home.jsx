@@ -4,10 +4,12 @@ import NatureVid from "../assets/video/main3.mp4";
 import BlogsComp from "../components/Blogs/BlogsComp";
 import Places from "../components/Places/Places";
 import Testimonial from "../components/Testimonial/Testimonial";
+import Culinary from "../components/Culinary/CulinaryPage";
 import Banner from "../components/Banner/Banner";
 import BannerPic from "../components/BannerPic/BannerPic";
 import BannerImg from "../assets/bali2.jpg";
 import Banner2 from "../assets/bali.jpg";
+import Banner3 from "../assets/kuliner.jpg";
 import OrderPopup from "../components/OrderPopup/OrderPopup";
 
 const Home = () => {
@@ -30,9 +32,11 @@ const Home = () => {
           </video>
           <Hero />
         </div>
-        <Places handleOrderPopup={handleOrderPopup}  />
-        <BannerPic img={BannerImg} />
         <BlogsComp />
+        <BannerPic img={BannerImg} />
+        <Places handleOrderPopup={handleOrderPopup}  />
+        <BannerPic img={Banner3} />
+        <Culinary />
         <Banner />
         <BannerPic img={Banner2} />
         <Testimonial />
