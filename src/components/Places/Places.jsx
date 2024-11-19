@@ -10,6 +10,8 @@ import Img4 from "../../assets/places/bandara.jpeg";
 import Img5 from "../../assets/places/ombak.jpeg";
 import Img6 from "../../assets/places/kebakaran.jpeg";
 
+const { Search } = Input;
+
 const PlacesData = [
   {
     img: Img1,
@@ -75,10 +77,14 @@ const Places = () => {
   const location = useLocation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
-  const [ratings, setRatings] = useState({}); // Menyimpan rating setiap tempat
-  const [comments, setComments] = useState({}); // Menyimpan komentar setiap tempat
-  const [comment, setComment] = useState(""); // Komentar baru yang dimasukkan
+  const [searchText, setSearchText] = useState("");
+  const [ratings, setRatings] = useState({});
+  const [comments, setComments] = useState({});
+  const [comment, setComment] = useState("");
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
 
   const showModal = (item) => {
     setModalContent(item);
@@ -110,9 +116,9 @@ const Places = () => {
 
   const filteredPlaces = PlacesData.filter(
     (place) =>
-      place.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      place.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      place.location.toLowerCase().includes(searchTerm.toLowerCase())
+      place.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      place.description.toLowerCase().includes(searchText.toLowerCase()) ||
+      place.location.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -123,60 +129,53 @@ const Places = () => {
         </h1>
 
         {location.pathname === "/best-places" && (
-          <Input
-          placeholder="Cari berita..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-6"
-          style={{ width: "100%", padding: "10px" }}
-          suffix={<SearchOutlined />}
-        />
+          <Search
+            placeholder="Cari berdasarkan nama berita"
+            allowClear
+            enterButton="Cari"
+            size="large"
+            onSearch={handleSearch}
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            style={{ marginBottom: "20px" }}
+          />
         )}
-
-        {/* Input Search */}
-        
 
         {/* Grid Cards */}
         <Row gutter={[16, 16]}>
           {filteredPlaces.map((item, index) => (
-            <Col key={index} xs={24} sm={12} md={12} lg={8} xl={8}>
+            <Col key={index} xs={24} sm={12} md={8} lg={8} xl={8}>
               <Card
                 hoverable
-                bordered={false}
                 onClick={() => showModal(item)}
                 style={{
                   borderRadius: "16px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   overflow: "hidden",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  position: "relative",
-                  transition: "all 0.3s ease",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
                 }}
-                className="shadow-md"
-              >
-                <div style={{ height: "250px", overflow: "hidden" }}>
+                cover={
                   <img
                     alt={item.title}
                     src={item.img}
                     style={{
                       width: "100%",
-                      height: "100%",
+                      height: "200px",
                       objectFit: "cover",
+                      margin: 0,
                     }}
                   />
-                </div>
-
+                }
+              >
                 <Card.Meta
                   title={item.title}
                   description={item.location}
                   style={{
                     marginTop: "10px",
+                    padding: "0 10px",
                   }}
                 />
-                {/* Menambahkan rating */}
-                <div className="my-2">
+                <div className="my-2" style={{ padding: "0 10px" }}>
                   <Rate
                     value={ratings[item.title] || 0}
                     onChange={(value) => handleRatingChange(value, item.title)}
@@ -237,18 +236,6 @@ const Places = () => {
             </div>
           </div>
         </Modal>
-        {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
-        <style jsx>{`
-          .ant-card:hover .overlay {
-            opacity: 1; /* Menampilkan overlay saat hover */
-            visibility: visible; /* Menampilkan overlay saat hover */
-          }
-
-          .ant-card:hover {
-            transform: scale(1.05); /* Membesarkan card sedikit saat hover */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
-          }
-  `}</style>
       </section>
     </div>
   );
