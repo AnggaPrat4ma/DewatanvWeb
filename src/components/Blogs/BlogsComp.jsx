@@ -16,7 +16,7 @@ import {
   Popconfirm
 } from "antd";
 import { useLocation } from "react-router-dom";
-import { DeleteOutlined, InfoCircleOutlined, LinkOutlined, PictureOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, InfoCircleOutlined, LinkOutlined, PictureOutlined, EditOutlined, PlusCircleOutlined, RightOutlined } from "@ant-design/icons";
 
 const { Paragraph, Title } = Typography;
 const { Search } = Input;
@@ -240,7 +240,28 @@ const BlogsComp = () => {
   return (
     <div className="dark:bg-gray-900 dark:text-white py-10">
       <section data-aos="fade-up" className="container">
-        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">Destinasi Terbaru Kami</h1>
+        <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold flex justify-between items-center">
+          Destinasi Terbaru Kami
+          {location.pathname === "/" && (
+            <Button
+              type="link"
+              href="/blogs"
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px", // Memberi jarak antara teks dan ikon
+                color: "#1890ff", // Warna teks sesuai dengan tema Ant Design
+              }}
+              onMouseEnter={(e) => (e.target.style.color = "#40a9ff")} // Animasi hover
+              onMouseLeave={(e) => (e.target.style.color = "#1890ff")}
+            >
+              Lihat Semua <RightOutlined />
+            </Button>
+          )}
+        </h1>
+
         {location.pathname === "/blogs" && (
           <Search
             placeholder="Cari berdasarkan nama destinasi"
@@ -254,18 +275,19 @@ const BlogsComp = () => {
           />
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {filteredBlogs.map((blog) => (
-            <BlogCard
-              key={blog.id_play}
-              {...blog}
-              onClick={() => handleShowDetails(blog)}
-              onEdit={() => handleDrawerOpen(blog)}
-              onDelete={() => handleDelete(blog.id_play)}
-            />
-          ))}
+          {filteredBlogs
+            .slice(0, location.pathname === "/" ? 6 : filteredBlogs.length)
+            .map((blog) => (
+              <BlogCard
+                key={blog.id_play}
+                {...blog}
+                onClick={() => handleShowDetails(blog)}
+                onEdit={() => handleDrawerOpen(blog)}
+                onDelete={() => handleDelete(blog.id_play)}
+              />
+            ))}
         </div>
       </section>
-
       {location.pathname === "/blogs" && (
         <FloatButton
           type="primary"
@@ -312,7 +334,6 @@ const BlogsComp = () => {
             >
               <Input placeholder="Masukkan nama destinasi" prefix={<EditOutlined />} />
             </Form.Item>
-
             <Form.Item
               label={
                 <span>
@@ -327,7 +348,6 @@ const BlogsComp = () => {
             >
               <Input.TextArea rows={3} placeholder="Jelaskan destinasi dalam beberapa kalimat" />
             </Form.Item>
-
             <Form.Item
               label={
                 <span>
@@ -351,8 +371,6 @@ const BlogsComp = () => {
                 ]}
               />
             </Form.Item>
-
-
             <Form.Item
               label={
                 <span>
