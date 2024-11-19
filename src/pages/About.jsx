@@ -14,7 +14,7 @@ const About = () => {
     {
       name: "ANGGA PRATAMA",
       role: "IT DEVELOPER",
-      image: "./src/assets/team/angga.jpg",
+      image: "./src/assets/team/angga1x1.jpg",
     },
     {
       name: "NGURAH EKA PRAYOGA",

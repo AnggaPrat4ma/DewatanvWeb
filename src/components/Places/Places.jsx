@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, Row, Col, Modal, Button, Input, Rate } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
 
 import Img1 from "../../assets/places/mangrove.jpg";
 import Img2 from "../../assets/places/turis.jpeg";
@@ -71,6 +72,7 @@ const PlacesData = [
 ];
 
 const Places = () => {
+  const location = useLocation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,27 +122,24 @@ const Places = () => {
           Berita Terkini
         </h1>
 
-        {/* Input Search */}
-        <Input
+        {location.pathname === "/best-places" && (
+          <Input
           placeholder="Cari berita..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-6"
-          style={{ width: "40vw", padding: "10px" }}
+          style={{ width: "100%", padding: "10px" }}
           suffix={<SearchOutlined />}
         />
+        )}
+
+        {/* Input Search */}
+        
 
         {/* Grid Cards */}
         <Row gutter={[16, 16]}>
           {filteredPlaces.map((item, index) => (
-            <Col
-              key={index}
-              xs={24}
-              sm={12}
-              md={12}
-              lg={8}
-              xl={8}
-            >
+            <Col key={index} xs={24} sm={12} md={12} lg={8} xl={8}>
               <Card
                 hoverable
                 bordered={false}

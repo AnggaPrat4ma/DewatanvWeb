@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../../../images/A.png";
+import Logo from "../../../images/nobg.png";
 import { NavLink, Link } from "react-router-dom";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import ResponsiveMenu from "./ResponsiveMenu";
