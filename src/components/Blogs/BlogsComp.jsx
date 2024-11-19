@@ -8,6 +8,7 @@ import {
   Form,
   Input,
   Space,
+  Select,
   Tooltip,
   FloatButton,
   Typography,
@@ -18,6 +19,7 @@ import { useLocation } from "react-router-dom";
 import { DeleteOutlined, InfoCircleOutlined, LinkOutlined, PictureOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
 const { Paragraph, Title } = Typography;
+const { Search } = Input;
 
 const BlogCard = ({
   play_name,
@@ -108,6 +110,8 @@ const BlogCard = ({
 const BlogsComp = () => {
   const location = useLocation();
   const [blogs, setBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
@@ -122,12 +126,21 @@ const BlogsComp = () => {
       const data = await response.json();
       if (data.message === "OK") {
         setBlogs(data.datas);
+        setFilteredBlogs(data.datas);
       } else {
         notification.error({ message: "Gagal memuat data" });
       }
     } catch (error) {
       notification.error({ message: "Terjadi kesalahan saat mengambil data" });
     }
+  };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+    const filtered = blogs.filter((blog) =>
+      blog.play_name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredBlogs(filtered);
   };
 
   useEffect(() => {
@@ -162,7 +175,9 @@ const BlogsComp = () => {
 
       if (response.ok) {
         notification.success({ message: "Destinasi berhasil dihapus" });
-        setBlogs(blogs.filter((blog) => blog.id_play !== id));
+        const updatedBlogs = blogs.filter((blog) => blog.id_play !== id);
+        setBlogs(updatedBlogs);
+        setFilteredBlogs(updatedBlogs);
       } else {
         notification.error({ message: "Gagal menghapus destinasi" });
       }
@@ -226,14 +241,26 @@ const BlogsComp = () => {
     <div className="dark:bg-gray-900 dark:text-white py-10">
       <section data-aos="fade-up" className="container">
         <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">Destinasi Terbaru Kami</h1>
+        {location.pathname === "/blogs" && (
+          <Search
+            placeholder="Cari berdasarkan nama destinasi"
+            allowClear
+            enterButton="Cari"
+            size="large"
+            onSearch={handleSearch}
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            style={{ marginBottom: "20px" }}
+          />
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {blogs.map((blog) => (
+          {filteredBlogs.map((blog) => (
             <BlogCard
               key={blog.id_play}
               {...blog}
               onClick={() => handleShowDetails(blog)}
-              onDelete={() => handleDelete(blog.id_play)}
               onEdit={() => handleDrawerOpen(blog)}
+              onDelete={() => handleDelete(blog.id_play)}
             />
           ))}
         </div>
@@ -305,16 +332,26 @@ const BlogsComp = () => {
               label={
                 <span>
                   Tipe Destinasi&nbsp;
-                  <Tooltip title="destinasi ini termasuk tipe apa?">
+                  <Tooltip title="Destinasi ini termasuk tipe apa?">
                     <InfoCircleOutlined />
                   </Tooltip>
                 </span>
               }
               name="play_genre"
-              rules={[{ required: true, message: "Silahkan masukkan tipe" }]}
+              rules={[{ required: true, message: "Silahkan pilih tipe destinasi" }]}
             >
-              <Input placeholder="misalnya, Pendidikan, Hiburan" />
+              <Select
+                placeholder="Pilih tipe destinasi"
+                options={[
+                  { value: "education", label: "Education" },
+                  { value: "song", label: "Song" },
+                  { value: "music", label: "Music" },
+                  { value: "movie", label: "Movie" },
+                  { value: "others", label: "Others" },
+                ]}
+              />
             </Form.Item>
+
 
             <Form.Item
               label={
