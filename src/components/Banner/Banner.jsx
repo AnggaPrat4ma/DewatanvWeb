@@ -24,15 +24,14 @@ const Banner = () => {
             {/* Text content section */}
             <div className="flex flex-col justify-center gap-6 sm:pt-0 lg:px-16">
               <h1 data-aos="fade-up" className="text-3xl sm:text-4xl font-bold">
-                Jelajahi Semua Keindahan Bali Bersama Kami
+                Berwisata bukan hanya soal tujuan yang dicapai, tetapi juga
+                perihal perjalanan pemulihan jiwa.
               </h1>
               <p
                 data-aos="fade-up"
                 className="text-sm text-gray-500 tracking-wide leading-8"
               >
-                Temukan berbagai destinasi menarik di Bali dengan mudah. Nikmati
-                keindahan alam, budaya, dan pantai yang memukau, semuanya dalam
-                satu platform.
+                "Jejakkan langkah, biarkan Bali memeluk jiwa eksplorasi dimulai di sini!"
               </p>
               <div data-aos="zoom-in" className="grid grid-cols-2 gap-6">
                 <div className="space-y-6">
