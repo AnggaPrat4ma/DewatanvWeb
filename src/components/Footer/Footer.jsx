@@ -25,6 +25,10 @@ const FooterLinks = [
     title: "Destinasi",
     link: "/blogs",
   },
+  {
+    title: "Kuliner",
+    link: "/culinary",
+  },
 ];
 
 const Footer = () => {

@@ -76,44 +76,29 @@ const CulinaryPage = () => {
 
   return (
     <div className="dark:bg-gray-900 dark:text-white py-10">
-      <section data-aos="fade-up" className="container">
+      <section data-aos="fade-up" className="container space-y-6">
         <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
           Kuliner Khas Bali
         </h1>
 
         {location.pathname === "/culinary" && (
           <input
-          type="text"
-          className="p-3 w-full max-w-[600px] rounded-lg border-2 border-primary focus:outline-none"
-          placeholder="Cari kuliner..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+            type="text"
+            className="p-2 w-full max-w-[100%] rounded-lg border-2 border-primary focus:outline-none mb-8"
+            placeholder="Cari kuliner..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         )}
 
-
-        {/* Menampilkan hasil filter */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredBlogs.map((item) => (
             <CulinaryCard key={item.id} {...item} />
           ))}
         </div>
-
-        {/* Menggunakan :hover untuk menampilkan overlay dengan deskripsi lengkap */}
-        <style jsx>{`
-          .ant-card:hover .overlay {
-            opacity: 1; /* Menampilkan overlay saat hover */
-            visibility: visible; /* Menampilkan overlay saat hover */
-          }
-
-          .ant-card:hover {
-            transform: scale(1.05); /* Membesarkan card sedikit saat hover */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih besar saat hover */
-          }
-        `}</style>
       </section>
     </div>
   );
 };
 
-export default CulinaryPage;
+export default CulinaryPage;
