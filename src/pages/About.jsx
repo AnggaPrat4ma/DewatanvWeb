@@ -1,6 +1,5 @@
 import React from "react";
 import { Typography, Row, Col, Card, Divider, Image } from "antd";
-import { EnvironmentOutlined } from "@ant-design/icons";
 import Location from "../components/Location/Location"; 
 
 const { Title, Paragraph } = Typography;
