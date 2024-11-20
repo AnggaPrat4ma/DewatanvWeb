@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { Card, Modal } from "antd";
+import { Card, Modal, Rate, Button, Carousel } from "antd";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 
 const { Meta } = Card;
 
-const CulinaryCard = ({ image, date, title, description, author }) => {
+const CulinaryCard = ({ image, date, title, description, author, gallery }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(
+    JSON.parse(localStorage.getItem(title)) || false
+  );
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const handleFavorite = () => {
+    setIsFavorited(!isFavorited);
+    localStorage.setItem(title, JSON.stringify(!isFavorited));
   };
 
   const handleCancel = () => {
@@ -36,9 +41,8 @@ const CulinaryCard = ({ image, date, title, description, author }) => {
       >
         <div className="flex justify-between text-sm text-slate-600 dark:text-gray-300 pb-2">
           <p>{date}</p>
-          <p className="line-clamp-1">By {author}</p>
+          <p>By {author}</p>
         </div>
-
         <Meta
           title={
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -51,26 +55,42 @@ const CulinaryCard = ({ image, date, title, description, author }) => {
             </p>
           }
         />
+        <div className="mt-2 flex justify-between items-center">
+          <Rate allowHalf defaultValue={4} className="text-sm" />
+          <Button
+            shape="circle"
+            icon={
+              isFavorited ? (
+                <HeartFilled style={{ color: "red" }} />
+              ) : (
+                <HeartOutlined />
+              )
+            }
+            onClick={handleFavorite}
+          />
+        </div>
       </Card>
 
       <Modal
         title={title}
         visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
         footer={null}
+        onCancel={handleCancel}
       >
-        <div>
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-60 object-cover mb-4"
-          />
-          <p>{description}</p>
-          <p className="text-sm text-gray-500 mt-4">
-            By {author} - {date}
-          </p>
-        </div>
+        <Carousel autoplay>
+          {gallery.map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt={`${title} ${idx}`}
+              className="w-full h-60 object-cover"
+            />
+          ))}
+        </Carousel>
+        <p className="mt-4">{description}</p>
+        <p className="text-sm text-gray-500 mt-4">
+          By {author} - {date}
+        </p>
       </Modal>
     </>
   );
