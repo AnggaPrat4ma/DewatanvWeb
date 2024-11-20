@@ -9,6 +9,8 @@ import Img4 from "../../assets/places/sambalmatah.jpeg";
 import Img5 from "../../assets/places/betutu.jpg";
 import Img6 from "../../assets/places/jukuturap.jpeg";
 
+
+// Data blog yang berisi informasi kuliner Bali
 const BlogsData = [
   { id: 1, image: Img1, title: "Rujak Bulung", description: "Jika biasanya rujak terdiri dari bermacam-macam buah-buahan segar seperti mangga, nanas, atau kedondong yang dipadu dengan sambal pedas manis, lain halnya dengan rujak bulung. Kuliner khas Bali ini menggunakan bahan utama berupa rumput laut segar yang disiram dengan kuah pindang yang gurih. Kuah ini memberikan cita rasa yang unik karena berpadu dengan rasa alami rumput laut. Untuk melengkapi kelezatannya, ditambahkan kelapa parut yang gurih dan kedelai goreng yang renyah, menciptakan perpaduan rasa dan tekstur yang khas serta menyegarkan. Rujak bulung menjadi pilihan tepat bagi pencinta kuliner yang ingin merasakan keunikan cita rasa laut dalam bentuk yang sederhana namun menggugah selera", author: "Gogo", date: "April 22, 2022" },
   { id: 2, image: Img2, title: "Nasi Jinggo", description: "Salah satu kuliner Pulau Dewata yang sudah cukup terkenal adalah nasi jinggo. Kuliner ini cukup mirip dengan nasi kucing karena dibungkus daun pisang dengan porsi yang kecil namun padat dan berisi. Nasi jinggo biasanya akan disajikan dengan potongan daging yang empuk, mie kuning, sambal goreng tempe yang pedas, dan sambal yang kental dan berempah. Sate lilit yang manis dan beraroma rempah juga kerap kali dijadikan makanan pelengkap untuk menambah kelezatan dan kekayaan cita rasa nasi jinggo tersebut. Nasi jinggo menjadi sajian khas Bali yang wajib dicoba oleh para wisatawan saat berkunjung ke Pulau Dewata, memberikan pengalaman kuliner yang otentik dan tak terlupakan.", author: "Gogo", date: "April 22, 2022" },
@@ -18,16 +20,20 @@ const BlogsData = [
   { id: 6, image: Img6, title: "Jukut Urap", description: "Jukut urap sering merupakan salah satu hidangan sayuran khas Bali yang sering ditemukan dalam sajian nasi campur atau nasi rames. Jukut urap sering terdiri dari berbagai macam sayuran segar seperti kacang panjang, kangkung, dan jenis sayuran hijau lainnya yang disiram dengan bumbu urap khas Bali. Bumbu urap tersebut dibuat dari campuran kelapa parut, cabai, terasi, gula, dan bumbu rempah lainnya yang memberikan citarasa yang kaya, pedas, dan gurih. Proses pembuatan jukut urap ering cukup sederhana namun menghasilkan sajian yang lezat dan segar. Tekstur sayuran yang masih renyah berpadu dengan creamy bumbu urap membuat setiap suapan jukut urap terasa begitu nikmat. Tidak heran jika jukut urap sering menjadi salah satu lauk wajib yang menyertai nasi campur, memberikan sensasi rasa yang unik dan kaya akan cita rasa Bali. Kehadiran jukut urap ering menyempurnakan kelengkapan hidangan nasi Bali, menjadikannya lebih spesial dan mengundang selera.", author: "Gogo", date: "April 22, 2022" },
 ];
 
+// Komponen utama halaman kuliner
 const CulinaryPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState(""); // State untuk menyimpan kata pencarian
+  const location = useLocation(); //Hook untuk mendapatkan informasi tentang URL saat ini
 
+
+  // Memfilter data blog berdasarkan kata kunci pencarian
   const filteredBlogs = BlogsData.filter((item) =>
     searchTerm
-      ? item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      : true
+      ? item.title.toLowerCase().includes(searchTerm.toLowerCase()) // Mencari judul yang sesuai
+      : true // Jika tidak ada pencarian, tampilkan semua
   );
 
+  // Fungsi untuk menangani perubahan pada input pencarian
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
@@ -39,22 +45,24 @@ const CulinaryPage = () => {
           Kuliner Khas Bali
         </h1>
 
+        {/* Input pencarian hanya ditampilkan jika berada di halaman '/culinary' */}
         {location.pathname === "/culinary" && (
           <Input.Search
-            placeholder="Cari Kuliner"
-            allowClear
-            enterButton="Cari"
+            placeholder="Cari Kuliner" // Placeholder pada input
+            allowClear // Menambahkan tombol untuk menghapus input
+            enterButton="Cari" // Tombol pencarian
             size="large"
-            onSearch={handleSearch}
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
+            onSearch={handleSearch} // Fungsi yang dijalankan saat tombol pencarian diklik
+            value={searchTerm} // Mengikat input dengan state pencarian
+            onChange={(e) => handleSearch(e.target.value)} // Update state saat input berubah
             style={{ marginBottom: "15px" }}
           />
         )}
 
+        {/* Menampilkan data kuliner yang telah difilter */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {filteredBlogs.map((item) => (
-            <CulinaryCard key={item.id} {...item} />
+            <CulinaryCard key={item.id} {...item} /> // Komponen untuk setiap item
           ))}
         </div>
       </section>
@@ -62,4 +70,4 @@ const CulinaryPage = () => {
   );
 };
 
-export default CulinaryPage;
+export default CulinaryPage; // Mengekspor komponen untuk digunakan di tempat lain
