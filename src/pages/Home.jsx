@@ -9,7 +9,7 @@ import Banner from "../components/Banner/Banner";
 import BannerPic from "../components/BannerPic/BannerPic";
 import BannerImg from "../assets/bali2.jpg";
 import Banner2 from "../assets/bali.jpg";
-import Banner3 from "../assets/kuliner.jpg";
+import Banner3 from "../assets/TRAVEL 2.png";
 import OrderPopup from "../components/OrderPopup/OrderPopup";
 
 const Home = () => {

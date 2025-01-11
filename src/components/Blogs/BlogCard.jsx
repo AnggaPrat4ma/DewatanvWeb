@@ -1,14 +1,26 @@
 import React from "react";
-import { Card, Button } from "antd";
+import { Card, Button, Popconfirm, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
+const { Paragraph } = Typography;
 
-const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDelete, onEdit }) => {
+const BlogCard = ({ nama_wisata, deskripsi, gambar, onClick, onDelete, onEdit }) => {
   return (
     <Card
       hoverable
-      cover={<img alt={play_name} src={play_thumbnail} />}
+      cover={
+        <img
+          alt={nama_wisata}
+          src={gambar}
+          style={{
+            width: "100%",
+            height: "200px",
+            objectFit: "cover", // Adjust image aspect ratio
+          }}
+        />
+      }
+      onClick={onClick} // Trigger details view
       actions={[
         <Button
           type="text"
@@ -18,32 +30,42 @@ const BlogCard = ({ play_name, play_description, play_thumbnail, onClick, onDele
             onEdit();
           }}
         />,
-        <Button
-          type="text"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={(e) => {
+        <Popconfirm
+          title="Apakah Anda yakin ingin menghapus destinasi ini?"
+          okText="Ya"
+          cancelText="Tidak"
+          onConfirm={(e) => {
             e.stopPropagation(); // Prevent triggering parent onClick
             onDelete();
           }}
-        />,
+          onCancel={(e) => e.stopPropagation()}
+        >
+          <Button
+            type="text"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={(e) => e.stopPropagation()} // Prevent card click
+          />
+        </Popconfirm>,
       ]}
-      onClick={onClick} // When card is clicked, show details
     >
       <Meta
-        title={play_name}
-        description={
-          <div
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2, // Limit description to 2 lines
-            }}
+        title={
+          <Paragraph
+            strong
+            ellipsis={{ rows: 1, tooltip: nama_wisata }}
+            style={{ marginBottom: 0 }}
           >
-            {play_description}
-          </div>
+            {nama_wisata}
+          </Paragraph>
+        }
+        description={
+          <Paragraph
+            ellipsis={{ rows: 2, tooltip: deskripsi }}
+            style={{ color: "rgba(0, 0, 0, 0.65)" }}
+          >
+            {deskripsi}
+          </Paragraph>
         }
       />
     </Card>
